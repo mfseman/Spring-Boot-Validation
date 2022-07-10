@@ -1,6 +1,8 @@
 # Spring-Boot-Validation
 This repository shows how to utilize spring boot validations along with testing them using mockMVC.
 
+For the endpoint "/api/validation/players", this will take a single request:
+
 Success when firstName and team are provided:
 
 <img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178160466-cef0e1f1-3c70-4f39-8e3d-3744d8f920ae.png">
@@ -25,3 +27,18 @@ When squad and team are not provided:
 
 <img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178160812-cb37b955-dbdb-44e1-baf7-b8849c249d75.png">
 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+For the endpoint "/api/validation/players", this will take a list of requests:
+
+Success for single request:
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161096-fec14822-0766-4cdc-b2d6-21d454d3df5e.png">
+
+Success for multiple requests:
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161115-1450da19-4845-4264-9248-fc24458685fc.png">
+
+Multistatus for Success with failures:
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161195-e51ea4fb-2792-4edd-b0d1-ef8f0c887d3f.png">
