@@ -103,6 +103,32 @@ class ValidationControllerFeatureTest {
     }
 
     @Test
+    void playerLookup_returns400Response_whenSquadAndTeamAreProvided() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/validation/player")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(PlayerRequest.builder()
+                                .firstName("Marco")
+                                .team("Blue")
+                                .squad("Gucci").build()))
+                        .header("Authorization", "taco"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("You must choose either: 'team' or 'squad'"));
+    }
+
+    @Test
+    void playerLookup_returns400Response_whenSquadAndTeamAreNotProvided() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/validation/player")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(PlayerRequest.builder()
+                                .firstName("Marco").build()))
+                        .header("Authorization", "taco"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("You must choose either: 'team' or 'squad'"));
+    }
+
+    @Test
     void playerLookup_returns400Response_whenFirstNameInRequestBodyIsEmpty() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/validation/player")
@@ -158,7 +184,9 @@ class ValidationControllerFeatureTest {
                 PlayerRequest.builder().firstName("Marco").team("Blue").build(),
                 PlayerRequest.builder().firstName("Thisexceedstwentycharacters").team("Blue").build(),
                 PlayerRequest.builder().firstName("2390je290js2jq9sw").team("Blue").build(),
-                PlayerRequest.builder().firstName(null).team("Blue").build());
+                PlayerRequest.builder().firstName(null).team("Blue").build(),
+                PlayerRequest.builder().firstName("Tommy").team("Blue").squad("Gucci").build(),
+                PlayerRequest.builder().firstName("Tommy").build());
 
         MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
                 .firstNames(playerRequest)
@@ -173,7 +201,9 @@ class ValidationControllerFeatureTest {
                 .andExpect(jsonPath("$.teamPlayers[0].firstName").value("Marco"))
                 .andExpect(jsonPath("$.teamPlayers[1].errorMessage").value("Your first name is too large"))
                 .andExpect(jsonPath("$.teamPlayers[2].errorMessage").value("Your first name is invalid"))
-                .andExpect(jsonPath("$.teamPlayers[3].errorMessage").value("Your first name cannot be empty"));
+                .andExpect(jsonPath("$.teamPlayers[3].errorMessage").value("Your first name cannot be empty"))
+                .andExpect(jsonPath("$.teamPlayers[4].errorMessage").value("You must choose either: 'team' or 'squad'"))
+                .andExpect(jsonPath("$.teamPlayers[5].errorMessage").value("You must choose either: 'team' or 'squad'"));
     }
 
     @Test
@@ -184,6 +214,11 @@ class ValidationControllerFeatureTest {
                 PlayerRequest.builder().firstName("Jack").build(),
                 PlayerRequest.builder().firstName("Richard").build(),
                 PlayerRequest.builder().firstName("Jefferson").build(),
+                PlayerRequest.builder().firstName("Tom").build(),
+                PlayerRequest.builder().firstName("Matthew").build(),
+                PlayerRequest.builder().firstName("Jared").build(),
+                PlayerRequest.builder().firstName("Patrick").build(),
+                PlayerRequest.builder().firstName("Jackson").build(),
                 PlayerRequest.builder().firstName("Billy").build());
 
         MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
@@ -196,7 +231,7 @@ class ValidationControllerFeatureTest {
                         .content(objectMapper.writeValueAsString(playerRequests))
                         .header("Authorization", "taco"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("You can only provide less than 5 names"));
+                .andExpect(jsonPath("$.message").value("You can only provide less than 10 names"));
     }
 
     @Test

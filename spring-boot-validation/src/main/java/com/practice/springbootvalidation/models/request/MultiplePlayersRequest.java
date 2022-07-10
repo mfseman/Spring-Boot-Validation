@@ -16,6 +16,6 @@ public class MultiplePlayersRequest {
 
     @NotNull(message = "First names list is required")
     @NotEmpty(message = "First names are required")
-    @Size(max = 5, message = "You can only provide less than 5 names")
+    @Size(max = 10, message = "You can only provide less than 10 names")
     private List<PlayerRequest> firstNames;
 }

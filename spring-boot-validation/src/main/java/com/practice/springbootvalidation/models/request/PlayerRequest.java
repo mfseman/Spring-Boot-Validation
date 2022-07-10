@@ -2,7 +2,6 @@ package com.practice.springbootvalidation.models.request;
 
 import com.practice.springbootvalidation.validation.CustomFieldValidation;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
