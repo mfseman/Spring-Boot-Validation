@@ -27,6 +27,12 @@ When squad and team are not provided:
 
 <img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178160812-cb37b955-dbdb-44e1-baf7-b8849c249d75.png">
 
+Error when Method is not supported:
+
+![image](https://user-images.githubusercontent.com/43916357/178161639-1a9b1854-7cf2-477e-9f53-3d5a213a82c8.png)
+
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 For the endpoint "/api/validation/players", this will take a list of requests:
