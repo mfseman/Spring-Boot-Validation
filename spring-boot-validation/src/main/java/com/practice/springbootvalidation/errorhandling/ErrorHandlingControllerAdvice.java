@@ -30,9 +30,9 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        String errorMessages = e.getBindingResult().getFieldErrors().stream().map(message -> message.getDefaultMessage()).collect(Collectors.joining(","));
-        log.error("MethodArgumentNotValidException happened: {}", errorMessages);
-        return generateErrorDetailsResponse(errorMessages, HttpStatus.BAD_REQUEST);
+        String errorMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        log.error("MethodArgumentNotValidException happened: {}", errorMessage);
+        return generateErrorDetailsResponse(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

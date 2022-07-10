@@ -36,7 +36,11 @@ public class ValidationController {
             @RequestHeader(value = "Authorization") String authorization,
             @Validated @RequestBody PlayerRequest playerRequest) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(PlayerResponse.builder().firstName(playerRequest.getFirstName()).lastName("Bob").team("Blue").build());
+        return ResponseEntity.status(HttpStatus.OK).body(PlayerResponse.builder()
+                .firstName(playerRequest.getFirstName())
+                .team(playerRequest.getTeam())
+                .squad(playerRequest.getSquad())
+                .build());
     }
 
     @PostMapping(path = "/players", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

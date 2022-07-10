@@ -53,7 +53,6 @@ class ValidationControllerFeatureTest {
                         .header("Authorization", "taco"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("Billy"))
-                .andExpect(jsonPath("$.lastName").value("Bob"))
                 .andExpect(jsonPath("$.team").value("Blue"));
     }
 
@@ -96,7 +95,8 @@ class ValidationControllerFeatureTest {
                         .post("/api/validation/player")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(PlayerRequest.builder()
-                                .firstName("FirstNameExceedsTwentyCharacters").build()))
+                                .firstName("FirstNameExceedsTwentyCharacters")
+                                .team("Blue").build()))
                         .header("Authorization", "taco"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Your first name is too large"));
@@ -108,7 +108,9 @@ class ValidationControllerFeatureTest {
                         .post("/api/validation/player")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(PlayerRequest.builder()
-                                .firstName(null).build()))
+                                .firstName(null)
+                                .team("Blue")
+                                .build()))
                         .header("Authorization", "taco"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Your first name cannot be empty"));
@@ -120,7 +122,8 @@ class ValidationControllerFeatureTest {
                         .post("/api/validation/player")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(PlayerRequest.builder()
-                                .firstName("ashd872h23s8h22#$%@!").build()))
+                                .firstName("ashd872h23s8h22#$%@!")
+                                .team("Blue").build()))
                         .header("Authorization", "taco"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Your first name is invalid"));
@@ -129,9 +132,9 @@ class ValidationControllerFeatureTest {
     @Test
     void multiplePLayerLookup_returnsSuccess() throws Exception {
         List<PlayerRequest> playerRequest = List.of(
-                PlayerRequest.builder().firstName("Billy").build(),
-                PlayerRequest.builder().firstName("Marco").build(),
-                PlayerRequest.builder().firstName("Jack").build());
+                PlayerRequest.builder().firstName("Billy").team("Blue").build(),
+                PlayerRequest.builder().firstName("Marco").team("Blue").build(),
+                PlayerRequest.builder().firstName("Jack").team("Blue").build());
 
         MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
                 .firstNames(playerRequest)
@@ -152,10 +155,10 @@ class ValidationControllerFeatureTest {
     @Test
     void multiplePLayerLookup_returns207Response_whenThereAreSuccessfulAndFailureRequests() throws Exception {
         List<PlayerRequest> playerRequest = List.of(
-                PlayerRequest.builder().firstName("Marco").build(),
-                PlayerRequest.builder().firstName("Thisexceedstwentycharacters").build(),
-                PlayerRequest.builder().firstName("2390je290js2jq9sw").build(),
-                PlayerRequest.builder().firstName(null).build());
+                PlayerRequest.builder().firstName("Marco").team("Blue").build(),
+                PlayerRequest.builder().firstName("Thisexceedstwentycharacters").team("Blue").build(),
+                PlayerRequest.builder().firstName("2390je290js2jq9sw").team("Blue").build(),
+                PlayerRequest.builder().firstName(null).team("Blue").build());
 
         MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
                 .firstNames(playerRequest)
@@ -214,6 +217,6 @@ class ValidationControllerFeatureTest {
     }
 
     private PlayerRequest createPlayerRequest() {
-        return PlayerRequest.builder().firstName("Billy").build();
+        return PlayerRequest.builder().firstName("Billy").team("Blue").build();
     }
 }

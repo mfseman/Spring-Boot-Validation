@@ -19,5 +19,8 @@ public class PlayerResponse {
     private String team;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String squad;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String errorMessage;
 }
