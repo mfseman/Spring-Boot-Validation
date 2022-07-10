@@ -1,21 +1,33 @@
 package com.practice.springbootvalidation.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.springbootvalidation.errorhandling.ErrorHandlingControllerAdvice;
+import com.practice.springbootvalidation.models.request.MultiplePlayersRequest;
 import com.practice.springbootvalidation.models.request.PlayerRequest;
+import com.practice.springbootvalidation.service.ValidateMultipleRequestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
+@ContextConfiguration(classes = {
+        ValidateMultipleRequestService.class,
+        ValidationController.class,
+        ErrorHandlingControllerAdvice.class
+})
 class ValidationControllerFeatureTest {
 
     @Autowired
@@ -113,7 +125,31 @@ class ValidationControllerFeatureTest {
                 .andExpect(jsonPath("$.message").value("Your first name is invalid"));
     }
 
+
+    @Test
+    void multiplePLayerLookup_returnsSuccess() throws Exception {
+        List<PlayerRequest> playerRequest = List.of(
+                PlayerRequest.builder().firstName("Billy").build(),
+                PlayerRequest.builder().firstName("Marco").build(),
+                PlayerRequest.builder().firstName("Jack").build());
+
+        MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
+                .firstNames(playerRequest)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/validation/players")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(playerRequests))
+                        .header("Authorization", "taco"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.teamPlayers[0].firstName").value("Billy"))
+                .andExpect(jsonPath("$.teamPlayers[1].firstName").value("Marco"))
+                .andExpect(jsonPath("$.teamPlayers[2].firstName").value("Jack"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
     private PlayerRequest createPlayerRequest() {
-        return PlayerRequest.builder().firstName("Bob").build();
+        return PlayerRequest.builder().firstName("Billy").build();
     }
 }
