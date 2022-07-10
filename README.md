@@ -29,9 +29,15 @@ When squad and team are not provided:
 
 Error when Method is not supported:
 
-![image](https://user-images.githubusercontent.com/43916357/178161639-1a9b1854-7cf2-477e-9f53-3d5a213a82c8.png)
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161700-1bd987e4-540e-4bb3-b9e2-a16bd5e34d2c.png">
 
+Error when Authorization header is invalid:
 
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161728-dc3e12f1-85fa-48c9-abab-be36000be2a3.png">
+
+Error when Content-Type is invalid:
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161716-a25e726c-7bd0-4652-88b0-230060446a11.png">
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
