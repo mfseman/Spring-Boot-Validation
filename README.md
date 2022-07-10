@@ -47,3 +47,9 @@ When list size exceeds 10:
 
 <img width="750" alt="image" src="https://user-images.githubusercontent.com/43916357/178161336-3901b927-ef40-45ab-bbcf-f8f47810e247.png">
 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+For reference on how to test with mockMVC, please refer to:
+https://github.com/mfseman/Spring-Boot-Validation/blob/main/spring-boot-validation/src/test/java/com/practice/springbootvalidation/api/ValidationControllerFeatureTest.java
+
+
