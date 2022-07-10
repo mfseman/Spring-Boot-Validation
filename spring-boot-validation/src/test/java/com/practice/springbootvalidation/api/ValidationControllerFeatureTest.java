@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -149,7 +150,7 @@ class ValidationControllerFeatureTest {
     }
 
     @Test
-    void multiplePLayerLookup_returns400BadRequestForInvalidName() throws Exception {
+    void multiplePLayerLookup_returns207Response_whenThereAreSuccessfulAndFailureRequests() throws Exception {
         List<PlayerRequest> playerRequest = List.of(
                 PlayerRequest.builder().firstName("Marco").build(),
                 PlayerRequest.builder().firstName("Thisexceedstwentycharacters").build(),
@@ -170,6 +171,46 @@ class ValidationControllerFeatureTest {
                 .andExpect(jsonPath("$.teamPlayers[1].errorMessage").value("Your first name is too large"))
                 .andExpect(jsonPath("$.teamPlayers[2].errorMessage").value("Your first name is invalid"))
                 .andExpect(jsonPath("$.teamPlayers[3].errorMessage").value("Your first name cannot be empty"));
+    }
+
+    @Test
+    void multiplePLayerLookup_returns400Response_whenListExceedsSizeOfFive() throws Exception {
+        List<PlayerRequest> playerRequest = List.of(
+                PlayerRequest.builder().firstName("Marco").build(),
+                PlayerRequest.builder().firstName("Polo").build(),
+                PlayerRequest.builder().firstName("Jack").build(),
+                PlayerRequest.builder().firstName("Richard").build(),
+                PlayerRequest.builder().firstName("Jefferson").build(),
+                PlayerRequest.builder().firstName("Billy").build());
+
+        MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
+                .firstNames(playerRequest)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/validation/players")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(playerRequests))
+                        .header("Authorization", "taco"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("You can only provide less than 5 names"));
+    }
+
+    @Test
+    void multiplePLayerLookup_returns400Response_whenListIsEmpty() throws Exception {
+        List<PlayerRequest> playerRequest = new ArrayList<>();
+
+        MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
+                .firstNames(playerRequest)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/validation/players")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(playerRequests))
+                        .header("Authorization", "taco"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("First names are required"));
     }
 
     private PlayerRequest createPlayerRequest() {
