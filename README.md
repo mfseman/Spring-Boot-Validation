@@ -53,3 +53,5 @@ For reference on how to test with mockMVC, please refer to:
 https://github.com/mfseman/Spring-Boot-Validation/blob/main/spring-boot-validation/src/test/java/com/practice/springbootvalidation/api/ValidationControllerFeatureTest.java
 
 
+For reference on how to use a Controller advice along with difference types of exceptions, please refer to:
+https://github.com/mfseman/Spring-Boot-Validation/blob/main/spring-boot-validation/src/main/java/com/practice/springbootvalidation/errorhandling/ErrorHandlingControllerAdvice.java
