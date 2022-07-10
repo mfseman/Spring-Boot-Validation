@@ -1,0 +1,24 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Zeppelin ignored files
+/ZeppelinRemoteNotebooks/
+/.gradle/*
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+### Build Output Directories (Combined) ###
+build/
+bin/
+classes/
+out/
+target/
+log/
+generated/

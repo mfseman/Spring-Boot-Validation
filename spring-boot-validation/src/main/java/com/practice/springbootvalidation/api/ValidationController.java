@@ -45,6 +45,6 @@ public class ValidationController {
             @Size(min = 4, max = 8, message = "Invalid Size")
             @RequestHeader(value = "Authorization") String authorization,
             @Validated @RequestBody MultiplePlayersRequest playerRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(validateMultipleRequestService.multiplePlayersResponse(playerRequest));
+        return validateMultipleRequestService.multiplePlayersResponse(playerRequest);
     }
 }

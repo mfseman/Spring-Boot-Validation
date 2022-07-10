@@ -125,7 +125,6 @@ class ValidationControllerFeatureTest {
                 .andExpect(jsonPath("$.message").value("Your first name is invalid"));
     }
 
-
     @Test
     void multiplePLayerLookup_returnsSuccess() throws Exception {
         List<PlayerRequest> playerRequest = List.of(
@@ -147,6 +146,30 @@ class ValidationControllerFeatureTest {
                 .andExpect(jsonPath("$.teamPlayers[1].firstName").value("Marco"))
                 .andExpect(jsonPath("$.teamPlayers[2].firstName").value("Jack"))
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void multiplePLayerLookup_returns400BadRequestForInvalidName() throws Exception {
+        List<PlayerRequest> playerRequest = List.of(
+                PlayerRequest.builder().firstName("Marco").build(),
+                PlayerRequest.builder().firstName("Thisexceedstwentycharacters").build(),
+                PlayerRequest.builder().firstName("2390je290js2jq9sw").build(),
+                PlayerRequest.builder().firstName(null).build());
+
+        MultiplePlayersRequest playerRequests = MultiplePlayersRequest.builder()
+                .firstNames(playerRequest)
+                .build();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/validation/players")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(playerRequests))
+                        .header("Authorization", "taco"))
+                .andExpect(status().isMultiStatus())
+                .andExpect(jsonPath("$.teamPlayers[0].firstName").value("Marco"))
+                .andExpect(jsonPath("$.teamPlayers[1].errorMessage").value("Your first name is too large"))
+                .andExpect(jsonPath("$.teamPlayers[2].errorMessage").value("Your first name is invalid"))
+                .andExpect(jsonPath("$.teamPlayers[3].errorMessage").value("Your first name cannot be empty"));
     }
 
     private PlayerRequest createPlayerRequest() {
