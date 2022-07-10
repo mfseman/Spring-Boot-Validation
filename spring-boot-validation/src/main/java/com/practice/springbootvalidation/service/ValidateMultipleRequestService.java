@@ -35,7 +35,9 @@ public class ValidateMultipleRequestService {
         for (PlayerRequest player : playerRequest.getFirstNames()) {
             try {
                 validateRequest(player);
-                playerResponse.add(PlayerResponse.builder().firstName(player.getFirstName()).build());
+                playerResponse.add(PlayerResponse.builder().firstName(player.getFirstName())
+                        .team(player.getTeam())
+                        .squad(player.getSquad()).build());
             } catch (CustomErrorDetailException e) {
                 requestStatus = HttpStatus.MULTI_STATUS;
                 playerResponse.add(PlayerResponse.builder().errorMessage(e.getMessage()).build());
