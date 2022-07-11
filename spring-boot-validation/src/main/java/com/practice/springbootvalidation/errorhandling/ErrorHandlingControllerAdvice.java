@@ -11,6 +11,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -44,6 +45,12 @@ public class ErrorHandlingControllerAdvice {
     public ResponseEntity<ErrorDetails> handleUnsupportedMediaTypeHandler(HttpMediaTypeNotSupportedException e) {
         log.error("HttpMediaTypeNotSupportedException happened: {}", e.getMessage());
         return generateErrorDetailsResponse(e.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorDetails> unsupportedDataTypeHandler(MethodArgumentTypeMismatchException e) {
+        log.error("MethodArgumentTypeMismatchException happened: {}", e.getMessage());
+        return generateErrorDetailsResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

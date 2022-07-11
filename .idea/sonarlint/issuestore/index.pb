@@ -1,0 +1,19 @@
+
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+†
+pspring-boot-validation/src/test/java/com/practice/springbootvalidation/SpringBootValidationApplicationTests.java,2/9/295d366797e9dd4a9fa28f92915bdf32a6d04bc9
+ù
+mspring-boot-validation/src/main/java/com/practice/springbootvalidation/validation/CustomFieldValidations.java,f/6/f63cd48c89f076122922adb7cdbf62ea16d20a3e
+S
+#spring-boot-validation/build.gradle,5/6/56073b85f93c4a2564333d93c6617220ef3c0bc1
+¶
+vspring-boot-validation/src/main/java/com/practice/springbootvalidation/models/response/CustomErrorDetailException.java,0/4/04a8b473a9bd6d0c55e9b7b8211e3a76709f2223
+ò
+hspring-boot-validation/src/main/java/com/practice/springbootvalidation/models/response/ErrorDetails.java,3/0/302dc559b2e98169253b9358aa87756c239222cc
+°
+qspring-boot-validation/src/main/java/com/practice/springbootvalidation/models/request/MultiplePlayersRequest.java,2/8/2839619aa892e7ad5df3c0f554372cff9ff9398a
+£
+sspring-boot-validation/src/main/java/com/practice/springbootvalidation/models/response/MultiplePlayersResponse.java,f/a/fa57acbafcfd968fd38e7b82e15bd7d884a42efc
+ü
+ospring-boot-validation/src/test/java/com/practice/springbootvalidation/api/ValidationControllerFeatureTest.java,7/e/7e7623af8ead5ed7d13b579a7c996415b5cb328c

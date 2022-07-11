@@ -23,4 +23,6 @@ public class PlayerRequest {
     private String team;
 
     private String squad;
+
+
 }
